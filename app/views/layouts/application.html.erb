@@ -9,10 +9,18 @@
 </head>
 <body>
   <div class="container">
+    <header>Blocipedia: Social, Markdown Wikis</header>
     <ul class="nav nav-tabs">
       <li><%= link_to "Home", welcome_index_path %></li>
       <li><%= link_to "About", welcome_about_path %></li>
     </ul>
+
+    <div>
+      <h4>Create and share Markdown Wikis</h4>
+    </div>
+
+    <p>Create as many public wikis as you want!</p>
+    <p>Create private wikis!</p>
 
     <%= yield %>
   </div>
