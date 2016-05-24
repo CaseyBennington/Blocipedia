@@ -1,29 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Blocipedia</title>
-  <meta name="viewpost" content="width=device-width, initial-scale=1" />
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application', true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <div class="container">
-    <header>Blocipedia: Social, Markdown Wikis</header>
-    <ul class="nav nav-tabs">
-      <li><%= link_to "Home", welcome_index_path %></li>
-      <li><%= link_to "About", welcome_about_path %></li>
-    </ul>
-
-    <div>
-      <h4>Create and share Markdown Wikis</h4>
-    </div>
-
-    <p>Create as many public wikis as you want!</p>
-    <p>Create private wikis!</p>
-
-    <%= yield %>
-  </div>
-
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Blocipedia" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Blocipedia" %>">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
+    <main role="main">
+       <%= render 'layouts/messages' %>
+       <%= yield %>
+    </main>
+  </body>
 </html>
