@@ -11,6 +11,7 @@ end
 group :development do
   gem 'sqlite3'
   gem 'web-console', '~> 2.0'
+  gem 'rails_layout'
 end
 
 gem 'sass-rails', '~> 5.0'
@@ -22,6 +23,8 @@ gem 'turbolinks'
 gem 'figaro'
 gem 'pry'
 gem 'bootstrap-sass'
+gem 'devise'
+gem 'gravatar'
 
 group :development, :test do
   gem 'byebug'
@@ -32,4 +35,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec'
 end
