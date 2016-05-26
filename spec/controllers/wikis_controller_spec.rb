@@ -1,5 +1,4 @@
 require 'rails_helper'
-include RandomData
 include SessionsHelper
 
 RSpec.describe WikisController, type: :controller do
@@ -34,7 +33,7 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'returns http redirect' do
-        post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -48,8 +47,8 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'PUT update' do
       it 'returns http redirect' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
         expect(response).to redirect_to(new_user_session_path)
@@ -105,16 +104,16 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'increases the number of Wiki by 1' do
-        expect { wiki :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph } }.to change(Wiki, :count).by(1)
+        expect { wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) } }.to change(Wiki, :count).by(1)
       end
 
       it 'assigns the new wiki to @wiki' do
-        post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(assigns(:wiki)).to eq Wiki.last
       end
 
       it 'redirects to the new wiki' do
-        post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to [Wiki.last]
       end
     end
@@ -128,8 +127,8 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'PUT update' do
       it 'returns http redirect' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
         expect(response).to redirect_to([my_wiki])
@@ -185,16 +184,16 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'increases the number of Wiki by 1' do
-        expect { post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph } }.to change(Wiki, :count).by(1)
+        expect { post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) } }.to change(Wiki, :count).by(1)
       end
 
       it 'assigns the new wiki to @wiki' do
-        post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(assigns(:wiki)).to eq Wiki.last
       end
 
       it 'redirects to the new wiki' do
-        post :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to [Wiki.last]
       end
     end
@@ -222,8 +221,8 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'PUT update' do
       it 'updates wiki with expected attributes' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
 
@@ -234,8 +233,8 @@ RSpec.describe WikisController, type: :controller do
       end
 
       it 'redirects to the updated wiki' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
         expect(response).to redirect_to [my_wiki]
@@ -298,16 +297,16 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'increases the number of Wiki by 1' do
-        expect { wiki :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph } }.to change(Wiki, :count).by(1)
+        expect { wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) } }.to change(Wiki, :count).by(1)
       end
 
       it 'assigns the new wiki to @wiki' do
-        wiki :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(assigns(:wiki)).to eq Wiki.last
       end
 
       it 'redirects to the new wiki' do
-        wiki :create, wiki: { title: RandomData.random_sentence, body: RandomData.random_paragraph }
+        wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to [Wiki.last]
       end
     end
@@ -335,8 +334,8 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'PUT update' do
       it 'updates wiki with expected attributes' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
 
@@ -347,8 +346,8 @@ RSpec.describe WikisController, type: :controller do
       end
 
       it 'redirects to the updated wiki' do
-        new_title = RandomData.random_sentence
-        new_body = RandomData.random_paragraph
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
         expect(response).to redirect_to [my_wiki]

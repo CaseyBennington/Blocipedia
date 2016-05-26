@@ -9,10 +9,10 @@ class WikisController < ApplicationController
   def show
     @wiki = Wiki.find(params[:id])
 
-    # unless @wiki.public || current_user
-    #   flash[:alert] = "You must be signed in to view private wiki."
-    #   redirect_to new_session_path
-    # end
+    unless @wiki.private || current_user
+      flash[:alert] = 'You must be signed in to view private wiki.'
+      redirect_to new_user_session_path
+    end
   end
 
   def new
@@ -37,8 +37,8 @@ class WikisController < ApplicationController
 
   def update
     @wiki = Wiki.find(params[:id])
-
     @wiki.assign_attributes(wiki_params)
+    @wiki.user = current_user
 
     if @wiki.save
       flash[:notice] = 'Wiki was updated successfully.'
