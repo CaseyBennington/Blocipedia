@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Wiki, type: :model do
-  let(:title) { RandomData.random_sentence }
-  let(:body) { RandomData.random_paragraph }
+  let(:title) { Faker::Hipster.sentence(3, true, 2) }
+  let(:body) { Faker::Lorem.paragraph(2, true, 4) }
 
   let(:user) { create(:user) }
   let(:wiki) { create(:wiki) }
@@ -18,7 +18,7 @@ RSpec.describe Wiki, type: :model do
 
   describe 'attributes' do
     it 'has title and body' do
-      expect(post).to have_attributes(title: wiki.title, body: wiki.body)
+      expect(wiki).to have_attributes(title: wiki.title, body: wiki.body)
     end
   end
 end
