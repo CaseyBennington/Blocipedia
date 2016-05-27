@@ -1,6 +1,6 @@
 class WikisController < ApplicationController
-  # before_action :require_sign_in, except: [:index, :show]
-  # before_action :authorize_user, except: [:index, :show]
+  before_action :require_sign_in, except: [:index, :show, :edit, :update]
+  before_action :authorize_user, only: :destroy
 
   def index
     @wikis = Wiki.visible_to(current_user)
@@ -9,10 +9,10 @@ class WikisController < ApplicationController
   def show
     @wiki = Wiki.find(params[:id])
 
-    unless @wiki.private || current_user
-      flash[:alert] = 'You must be signed in to view private wiki.'
-      redirect_to new_user_session_path
-    end
+    # unless @wiki.private || current_user
+    #   flash[:alert] = 'You must be signed in to view private wiki.'
+    #   redirect_to new_user_session_path
+    # end
   end
 
   def new
@@ -25,6 +25,7 @@ class WikisController < ApplicationController
 
   def create
     @wiki = Wiki.new(wiki_params)
+    @wiki.user = current_user
 
     if @wiki.save
       flash[:notice] = 'Wiki was saved successfully.'
@@ -38,7 +39,6 @@ class WikisController < ApplicationController
   def update
     @wiki = Wiki.find(params[:id])
     @wiki.assign_attributes(wiki_params)
-    @wiki.user = current_user
 
     if @wiki.save
       flash[:notice] = 'Wiki was updated successfully.'
@@ -67,10 +67,10 @@ class WikisController < ApplicationController
     params.require(:wiki).permit(:title, :body, :private)
   end
 
-  # def authorize_user
-  #   unless current_user.admin?
-  #     flash[:alert] = 'You must be an admin to do that.'
-  #     redirect_to wikis_path
-  #   end
-  # end
+  def authorize_user
+    unless current_user.admin? || Wiki.find(params[:id]).user == current_user
+      flash[:alert] = 'You must be an admin or this wiki\'s author to do that.'
+      redirect_to wikis_path
+    end
+  end
 end

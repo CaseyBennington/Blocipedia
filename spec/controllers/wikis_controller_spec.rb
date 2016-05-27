@@ -33,25 +33,50 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'returns http redirect' do
-        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
 
     describe 'GET edit' do
-      it 'returns http redirect' do
+      it 'returns http success' do
         get :edit, id: my_wiki.id
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the #edit view' do
+        get :edit, id: my_wiki.id
+        expect(response).to render_template :edit
+      end
+
+      it 'assigns wiki to be updated to @wiki' do
+        get :edit, id: my_wiki.id
+        wiki_instance = assigns(:wiki)
+
+        expect(wiki_instance.id).to eq my_wiki.id
+        expect(wiki_instance.title).to eq my_wiki.title
+        expect(wiki_instance.body).to eq my_wiki.body
       end
     end
 
     describe 'PUT update' do
-      it 'returns http redirect' do
+      it 'updates wiki with expected attributes' do
         new_title = Faker::Hipster.sentence(3, true, 2)
         new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
-        expect(response).to redirect_to(new_user_session_path)
+
+        updated_wiki = assigns(:wiki)
+        expect(updated_wiki.id).to eq my_wiki.id
+        expect(updated_wiki.title).to eq new_title
+        expect(updated_wiki.body).to eq new_body
+      end
+
+      it 'redirects to the updated wiki' do
+        new_title = Faker::Hipster.sentence(3, true, 2)
+        new_body = Faker::Lorem.paragraph(2, true, 4)
+
+        put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
+        expect(response).to redirect_to my_wiki
       end
     end
 
@@ -63,9 +88,9 @@ RSpec.describe WikisController, type: :controller do
     end
   end
 
-  context "member user doing CRUD on a post they don't own" do
+  context "standard user doing CRUD on a post they don't own" do
     before do
-      create_session(other_user)
+      set_session[other_user]
     end
 
     describe 'GET show' do
@@ -86,19 +111,9 @@ RSpec.describe WikisController, type: :controller do
     end
 
     describe 'GET new' do
-      it 'returns http success' do
+      it 'returns http redirect' do
         get :new
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'renders the #new view' do
-        get :new
-        expect(response).to render_template :new
-      end
-
-      it 'instantiates @wiki' do
-        get :new
-        expect(assigns(:wiki)).not_to be_nil
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -114,7 +129,7 @@ RSpec.describe WikisController, type: :controller do
 
       it 'redirects to the new wiki' do
         post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
-        expect(response).to redirect_to [Wiki.last]
+        expect(response).to redirect_to Wiki.last
       end
     end
 
@@ -143,9 +158,9 @@ RSpec.describe WikisController, type: :controller do
     end
   end
 
-  context 'member user doing CRUD on a wiki they own' do
+  context 'standard user doing CRUD on a wiki they own' do
     before do
-      create_session(my_user)
+      set_session[my_user]
     end
 
     describe 'GET show' do
@@ -258,7 +273,7 @@ RSpec.describe WikisController, type: :controller do
   context "admin user doing CRUD on a wiki they don't own" do
     before do
       other_user.admin!
-      create_session(other_user)
+      set_session[other_user]
     end
 
     describe 'GET show' do
@@ -350,7 +365,7 @@ RSpec.describe WikisController, type: :controller do
         new_body = Faker::Lorem.paragraph(2, true, 4)
 
         put :update, id: my_wiki.id, wiki: { title: new_title, body: new_body }
-        expect(response).to redirect_to [my_wiki]
+        expect(response).to redirect_to my_wiki
       end
     end
 

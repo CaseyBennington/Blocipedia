@@ -8,12 +8,10 @@ RSpec.describe User, type: :model do
   # Shoulda tests for email
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email) }
-  it { is_expected.to validate_length_of(:email).is_at_least(6) }
   it { is_expected.to allow_value('user@bloccit.com').for(:email) }
 
   # Shoulda tests for password
   it { is_expected.to validate_presence_of(:password) }
-  it { is_expected.to have_secure_password }
   it { is_expected.to validate_length_of(:password).is_at_least(6) }
 
   describe 'attributes' do
@@ -29,19 +27,23 @@ RSpec.describe User, type: :model do
       expect(user).to respond_to(:admin?)
     end
 
-    it 'responds to member?' do
-      expect(user).to respond_to(:member?)
+    it 'responds to standard?' do
+      expect(user).to respond_to(:standard?)
+    end
+
+    it 'responds to premium?' do
+      expect(user).to respond_to(:premium?)
     end
   end
 
   describe 'roles' do
-    it 'is member by default' do
-      expect(user.role).to eq('member')
+    it 'is standard by default' do
+      expect(user.role).to eq('standard')
     end
 
-    context 'member user' do
-      it 'returns true for #member?' do
-        expect(user.member?).to be_truthy
+    context 'standard user' do
+      it 'returns true for #standard?' do
+        expect(user.standard?).to be_truthy
       end
 
       it 'returns false for #admin?' do
@@ -54,8 +56,8 @@ RSpec.describe User, type: :model do
         user.admin!
       end
 
-      it 'returns false for #member?' do
-        expect(user.member?).to be_falsey
+      it 'returns false for #standard?' do
+        expect(user.standard?).to be_falsey
       end
 
       it 'returns true for #admin?' do

@@ -14,18 +14,6 @@ group :development do
   gem 'rails_layout'
 end
 
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
-gem 'jquery-rails'
-gem 'turbolinks'
-# gem 'bootstrap'
-gem 'figaro'
-gem 'pry'
-gem 'bootstrap-sass'
-gem 'devise'
-gem 'gravatar'
-
 group :development, :test do
   gem 'byebug'
   gem 'spring'
@@ -39,3 +27,16 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'spring-commands-rspec'
 end
+
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'jquery-rails'
+gem 'turbolinks'
+# gem 'bootstrap'
+gem 'figaro'
+gem 'pry'
+gem 'bootstrap-sass'
+gem 'devise'
+gem 'gravatar'
+gem 'pundit'
