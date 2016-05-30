@@ -1,4 +1,4 @@
-<div class="text-center">
+<div class="">
     <h1>New Wikis</h1>
 
     <div class="row">
@@ -20,7 +20,7 @@
                 <%= f.label :body %>
                 <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki body" %>
             </div>
-            <div class="form-group">
+            <div class="text-center form-group">
                 <%= f.label :private, class: 'checkbox' do %>
                 <%= f.check_box :private %>
                 Private wiki
@@ -28,7 +28,7 @@
             </div>
             <%= f.submit "Save", class: 'btn btn-success' %>
             <% end %>
+            <%= link_to 'Back', wikis_path %>
         </div>
-        <%= link_to 'Back', wikis_path %>
     </div>
 </div>
