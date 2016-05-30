@@ -28,6 +28,10 @@ group :development, :test do
   gem 'spring-commands-rspec'
 end
 
+group :test do
+  gem 'pundit-matchers', '~> 1.0.2'
+end
+
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'

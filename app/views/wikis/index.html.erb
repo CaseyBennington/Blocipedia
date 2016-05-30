@@ -1,4 +1,4 @@
-<div class="text-center">
+<div class="">
     <h1>Wikis</h1>
 
     <div class="row">
@@ -12,6 +12,9 @@
                         <small>
                             <%= wiki.body %>
                         </small>
+                        <%= link_to 'Show', wiki, class: 'pull-right btn btn-success' %>
+                        <%= link_to 'Edit', edit_wiki_path(wiki), class: 'pull-right btn btn-success' %>
+                        <%= link_to 'Destroy', wiki, class: 'pull-right btn btn-success', method: :delete, data: { confirm: 'Are you sure?' } %>
                     </div>
                 </div>
             <% end %>

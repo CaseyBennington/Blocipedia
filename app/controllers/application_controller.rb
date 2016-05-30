@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   include Pundit
   protect_from_forgery with: :exception
-  include SessionsHelper
   # after_action :verify_authorized
   # before_action :authenticate_user!
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # def after_sign_in_path_for(resource)
   #   wikis_path
@@ -22,10 +23,15 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def require_sign_in
-    unless current_user
-      flash[:alert] = 'You must be logged in to do that'
-      redirect_to new_user_session_path
-    end
+  def user_not_authorized
+    flash[:alert] = 'You are not authorized to perform this action.'
+    redirect_to(request.referrer || root_path)
   end
+
+  # def require_sign_in
+  #   unless current_user
+  #     flash[:alert] = 'You must be logged in to do that'
+  #     redirect_to new_user_session_path
+  #   end
+  # end
 end

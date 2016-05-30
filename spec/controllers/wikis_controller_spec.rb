@@ -1,5 +1,4 @@
 require 'rails_helper'
-include SessionsHelper
 
 RSpec.describe WikisController, type: :controller do
   let(:my_user) { create(:user) }
@@ -33,6 +32,7 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'returns http redirect' do
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -119,12 +119,13 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'increases the number of Wiki by 1' do
-        expect { wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) } }.to change(Wiki, :count).by(1)
+        expect { post :create, user_id: my_user.id, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4), user_id: my_user.id } }.to change(Wiki, :count).by(1)
       end
 
       it 'assigns the new wiki to @wiki' do
-        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
+        post :create, user_id: my_user.id, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4), user_id: my_user.id }
         expect(assigns(:wiki)).to eq Wiki.last
+        byebug
       end
 
       it 'redirects to the new wiki' do
@@ -209,7 +210,7 @@ RSpec.describe WikisController, type: :controller do
 
       it 'redirects to the new wiki' do
         post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
-        expect(response).to redirect_to [Wiki.last]
+        expect(response).to redirect_to Wiki.last
       end
     end
 
@@ -312,17 +313,17 @@ RSpec.describe WikisController, type: :controller do
 
     describe 'POST create' do
       it 'increases the number of Wiki by 1' do
-        expect { wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) } }.to change(Wiki, :count).by(1)
+        expect { post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4), private: false } }.to change(Wiki, :count).by(1)
       end
 
       it 'assigns the new wiki to @wiki' do
-        wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4), private: false }
         expect(assigns(:wiki)).to eq Wiki.last
       end
 
       it 'redirects to the new wiki' do
-        wiki :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4) }
-        expect(response).to redirect_to [Wiki.last]
+        post :create, wiki: { title: Faker::Hipster.sentence(3, true, 2), body: Faker::Lorem.paragraph(2, true, 4), private: false }
+        expect(response).to redirect_to Wiki.last
       end
     end
 
