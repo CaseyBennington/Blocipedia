@@ -31,10 +31,19 @@
   <% end %>
 </div>
 
-<% avatar_url = avatar_url(@user) %>
-<% if avatar_url %>
-  <%= image_tag avatar_url, class: "media-object" %>
-<% end %>
+<div class="authform">
+  <% avatar_url = avatar_url(@user) %>
+  <% if avatar_url %>
+    <%= image_tag avatar_url, class: "media-object" %>
+  <% end %>
+  <h3>Account Status</h3>
+  <p>Your account is currently: <strong><%= current_user.role.capitalize %></p></strong>
+  <% if current_user.role == 'premium' %>
+    <%= button_to "Downgrade my account", downgrade_path, :data => { :confirm => "Are you sure?" }, :class => 'button right' %>
+  <% else %>
+    <%= button_to "Upgrade my account", charges_path, :data => { :confirm => "Are you sure?" }, :class => 'button right' %>
+  <% end %>
+</div>
 
 <div class="authform">
   <h3>Cancel Account</h3>
