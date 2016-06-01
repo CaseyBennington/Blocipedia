@@ -16,17 +16,18 @@
     <div class="row">
         <div class="col-md-8">
             <p><%= @wiki.body %></p>
+            <%= @wiki.private %> <!-- remove me -->
         </div>
-        <% if user_is_authorized_for_wikis?(@wiki) %>
         <div class="col-md-4">
             <%= link_to 'Back', wikis_path, class: "pull-left" %>
+            <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
 
-            <%= link_to "Delete Wiki", @wiki, method: :delete, class: 'pull-right btn btn-danger', data: {confirm: 'Are you sure you want to delete this wiki?'} %>
-            <%= link_to "Edit", edit_wiki_path(@wiki), class: 'pull-right btn btn-success' %>
+            <% if user_is_authorized_for_wikis?(@wiki) %>
+                <%= link_to "Delete Wiki", @wiki, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this wiki?'} %>
+            <% end %>
             <% if current_user %>
-                <%= link_to "New Post", new_wiki_path(@wiki), class: 'pull-right btn btn-success' %>
+                <%= link_to "New Post", new_wiki_path(@wiki), class: 'btn btn-success' %>
             <% end %>
         </div>
-        <% end %>
     </div>
 </div>
