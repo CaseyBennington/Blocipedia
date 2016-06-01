@@ -10,9 +10,9 @@
                             <%= link_to wiki.title, wiki %>
                         </h4>
                         <small>
-                            <%= wiki.body %>
+                            <%= wiki.body %><br />
+                            <%= wiki.private %> <!-- remove me -->
                         </small>
-                        <%= link_to 'Show', wiki, class: 'pull-right btn btn-success' %>
                         <%= link_to 'Edit', edit_wiki_path(wiki), class: 'pull-right btn btn-success' %>
                         <%= link_to 'Destroy', wiki, class: 'pull-right btn btn-success', method: :delete, data: { confirm: 'Are you sure?' } %>
                     </div>
@@ -26,32 +26,3 @@
         <% end %>
     </div>
 </div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Body</th>
-            <th>Private</th>
-            <th>User</th>
-            <th colspan="3"></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <% @wikis.each do |wiki| %>
-        <tr>
-            <td><%= wiki.title %></td>
-            <td><%= wiki.body %></td>
-            <td><%= wiki.private %></td>
-            <td><%= wiki.user.email %></td>
-            <td><%= link_to 'Show', wiki %></td>
-            <td><%= link_to 'Edit', edit_wiki_path(wiki) %></td>
-            <td><%= link_to 'Destroy', wiki, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-
-<br />
-<%= link_to 'New Wiki', new_wiki_path, class: 'btn btn-success' %>

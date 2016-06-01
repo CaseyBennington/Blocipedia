@@ -26,4 +26,23 @@ class WikiPolicy < ApplicationPolicy
   def destroy?
     user.admin? || record.user == user
   end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      if user.admin?
+        scope.all
+      elsif user.premium?
+        scope.where('private IS NULL OR private = ? OR (private = ? AND user_id = ?)', false, true, @user.id)
+      else
+        scope.where(private: false)
+      end
+    end
+  end
 end
