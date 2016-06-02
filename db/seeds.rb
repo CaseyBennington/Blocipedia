@@ -12,7 +12,19 @@ admin = User.create!(
 user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
 
-# Create a member
+# Create a premium member
+premium = User.create!(
+  first_name: 'premium',
+  last_name: 'premium',
+  user_name: 'premium.premium',
+  email: 'premium@example.com',
+  password: 'password',
+  confirmed_at: Faker::Date.between(1.year.ago, Date.today),
+  confirmation_token: Faker::Internet.password(20, 20, true),
+  role: 'premium'
+)
+
+# Create a standard member
 member = User.create!(
   first_name: 'member',
   last_name: 'member',
@@ -36,6 +48,29 @@ member = User.create!(
   )
 end
 users = User.all
+
+# Create wikis using markdown
+5.times do
+  wiki = Wiki.create!(
+    user: users.sample,
+    title: Faker::Hipster.sentence(3, true, 2),
+    body:
+    %Q{### There Is Someething You Should Know!
+
+    This is my very first post using markdown!
+
+    Here is the list of things I wish to do!
+
+    * write more wikis
+    * write even more wikis
+    * write even more wikis!
+
+    How do you like it? I learned this from [Google](www.google.com)!
+    },
+    private: Faker::Boolean
+  )
+  wiki.update_attribute(:created_at, Faker::Time.between(DateTime.now - 365, DateTime.now))
+end
 
 # Create wikis
 75.times do

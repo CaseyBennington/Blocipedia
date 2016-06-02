@@ -36,10 +36,10 @@ class WikiPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.admin?
+      if user && user.admin?
         scope.all
-      elsif user.premium?
-        scope.where('private IS NULL OR private = ? OR (private = ? AND user_id = ?)', false, true, @user.id)
+      elsif user && user.premium?
+        scope.where('private IS NULL` OR private = ? OR (private = ? AND user_id = ?)', false, true, @user.id)
       else
         scope.where(private: false)
       end
