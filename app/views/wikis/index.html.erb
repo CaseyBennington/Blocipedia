@@ -10,7 +10,7 @@
                             <%= link_to wiki.title, wiki %>
                         </h4>
                         <small>
-                            <%= wiki.body %><br />
+                            <%= markdown(wiki.body) %><br />
                             <%= wiki.private %> <!-- remove me -->
                         </small>
                         <%= link_to 'Edit', edit_wiki_path(wiki), class: 'pull-right btn btn-success' %>
