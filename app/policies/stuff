@@ -1,0 +1,15 @@
+SELECT id, title, body, private, wikis.user_id
+FROM wikis
+WHERE (wikis.private IS NULL OR wikis.private = 'f') OR (wikis.private = 't' AND wikis.user_id = 2)
+
+UNION
+
+SELECT wikis.id, title, body, private, wikis.user_id
+FROM wikis
+INNER JOIN collaborators ON collaborators.wiki_id = wikis.id
+WHERE (wikis.private = 't' AND collaborators.user_id = 2)
+
+
+def scoping
+  ActiveRecord::Base.connection.select_all(ActiveRecord::Base.send("sanitize_sql_array",[sql, self.id, self.id]))
+end

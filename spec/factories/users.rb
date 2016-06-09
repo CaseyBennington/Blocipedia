@@ -12,3 +12,12 @@ FactoryGirl.define do
     confirmed_at Date.today
   end
 end
+
+FactoryGirl.define do
+  factory :baduser, class: 'User' do
+    email 'c'
+    password '1'
+    password_confirmation '1'
+    confirmed_at Date.today
+  end
+end

@@ -12,11 +12,20 @@
         </h1>
     </div>
     <br/>
-
     <div class="row">
         <div class="col-md-8">
             <p><%= markdown(@wiki.body) %></p>
-            <%= @wiki.private %> <!-- remove me -->
+            <div>
+                <% if @wiki.private? %>
+                    <span>Private Wiki</span>
+                <% else %>
+                    <span>Public Wiki</span>
+                <% end %>
+                <br />
+                <% if @wiki.users.include?(current_user) %>
+                    <span>Collaborator</span>
+                <% end %>
+            </div>
         </div>
         <div class="col-md-4">
             <%= link_to 'Back', wikis_path, class: "pull-left" %>

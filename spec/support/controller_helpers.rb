@@ -13,7 +13,9 @@ module ControllerHelpers
   def login_admin
     before(:each) do
       @request.env['devise.mapping'] = Devise.mappings[:admin]
-      sign_in FactoryGirl.create(:admin)
+      admin = FactoryGirl.create(:user)
+      admin.admin!
+      sign_in :user, admin
     end
   end
 
@@ -21,7 +23,7 @@ module ControllerHelpers
     before(:each) do
       @request.env['devise.mapping'] = Devise.mappings[:user]
       user = FactoryGirl.create(:user)
-      user.confirm!
+      user.confirm
       sign_in user
     end
   end
