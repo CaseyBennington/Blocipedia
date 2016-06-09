@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '5.0.0.rc1'
 
 group :production do
   gem 'pg'
@@ -29,12 +29,12 @@ group :development, :test do
 end
 
 group :test do
-  gem 'pundit-matchers', '~> 1.0.2'
+  gem 'pundit-matchers'
 end
 
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 # gem 'bootstrap'
@@ -49,3 +49,4 @@ gem 'redcarpet'
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
 gem 'active_record_union'
+gem 'rails-controller-testing'

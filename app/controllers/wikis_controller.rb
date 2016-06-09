@@ -4,11 +4,6 @@ class WikisController < ApplicationController
 
   def index
     @wikis = policy_scope(Wiki)
-    if current_user.present?
-      authorize @wikis
-    else
-      skip_authorization
-    end
   end
 
   def show
@@ -25,8 +20,8 @@ class WikisController < ApplicationController
   end
 
   def create
-    @wiki = Wiki.new(wiki_params)
-    @wiki.user = current_user
+    @wiki = current_user.wikis.new(wiki_params)
+    # @wiki.user = current_user
     authorize @wiki
 
     if @wiki.save
@@ -80,6 +75,6 @@ class WikisController < ApplicationController
   end
 
   def wiki_params
-    params.require(:wiki).permit(:title, :body, :private)
+    params.require(:wiki).permit(:title, :body, :private, :user_id)
   end
 end
