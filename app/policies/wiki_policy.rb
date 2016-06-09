@@ -1,14 +1,14 @@
 class WikiPolicy < ApplicationPolicy
   def index?
-    user.present?
+    true
   end
 
   def show?
-    scope.where(id: record.id).exists?
+    # scope.where(id: record.id).exists?
+    !record.private? || (user.present? && (user.admin? || record.user == user || record.users.include?(user)))
   end
 
   def create?
-    #(user.admin? || user) if user
     user.present?
   end
 
@@ -37,22 +37,33 @@ class WikiPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.try(:admin?) # user && user.admin?
-        scope.all
-      elsif user.try(:premium?) # user && user.premium?
-        result_set = ActiveRecord::Base.connection.execute("
-        SELECT id, title, body, private, wikis.user_id
-        FROM wikis
-        WHERE (wikis.private IS NULL OR wikis.private = 'f') OR (wikis.private = 't' AND wikis.user_id = '#{@user.id}')
+      wikis = []
+      if user.try(:admin?)
+        wikis = scope.all # If the user is an admin, scope all the wikis
+      elsif user.try(:premium?)
+        all_wikis = scope.all
+        all_wikis.each do |wiki|
+          if wiki.private? == false || wiki.user == user || wiki.users.include?(user)
+            wikis << wiki # If the user is premium, scope all public wikis and wikis that have created, and private wikis they are collaborators on
+          end
+        end
 
-        UNION
 
-        SELECT wikis.id, title, body, private, wikis.user_id
-        FROM wikis
-        INNER JOIN collaborators ON collaborators.wiki_id = wikis.id
-        WHERE (wikis.private = 't' AND collaborators.user_id = '#{@user.id}')
-        ")
-        scope.where(result_set.to_sql)
+        ### Attempt to use SQL queries
+
+        # result_set = ActiveRecord::Base.connection.execute("
+        # SELECT id, title, body, private, wikis.user_id
+        # FROM wikis
+        # WHERE (wikis.private IS NULL OR wikis.private = 'f') OR (wikis.private = 't' AND wikis.user_id = '#{@user.id}')
+        #
+        # UNION
+        #
+        # SELECT wikis.id, title, body, private, wikis.user_id
+        # FROM wikis
+        # INNER JOIN collaborators ON collaborators.wiki_id = wikis.id
+        # WHERE (wikis.private = 't' AND collaborators.user_id = '#{@user.id}')
+        # ")
+        # scope.where(result_set.to_sql)
         # public_wikis
         # private_wikis
         # collaborator_wikis
@@ -60,14 +71,26 @@ class WikiPolicy < ApplicationPolicy
         # scope.joins('LEFT OUTER JOIN collaborators ON collaborators.wiki_id = wikis.id').where('(wikis.private IS NULL OR wikis.private = ? OR (wikis.private = ? AND wikis.user_id = ?)) OR (wikis.private = ? AND collaborators.user_id = ?)', false, true, @user.id, true, @user.id)
         # scope.joins(:collaborators).where('(wikis.private IS NULL OR wikis.private = ? OR (wikis.private = ? AND wikis.user_id = ?)) OR (wikis.private = ? AND collaborators.user_id = ?)', false, true, @user.id, true, @user.id)
         # scope.where('private IS NULL OR private = ? OR (private = ? AND user_id = ?) OR (private = ? AND collaborators = ?)', false, true, @user.id, true, @user.id)
+        # scope.where('private IS NULL OR private = ? OR (private = ? AND wikis.user_id = ?)', false, true, @user.id,).or.joins(:collaborators).where('private = ? AND collaborators.user_id = ?)', true, @user.id)
       elsif user.try(:standard?)
-        scope.where('private IS NULL or private = ?', false).union.joins(:collaborators).where('(private = ? AND collaborators.user_id = ?)', true, @user.id)
+        all_wikis = scope.all
+        all_wikis.each do |wiki|
+          if wiki.private? == false || wiki.users.include?(user)
+            wikis << wiki # If the user is a standard user, scope in all public wikis and private wikis they are collaborators on
+          end
+        end
+
+
+        ### Attempt to use SQL queries
+
+        # scope.where('private IS NULL or private = ?', false).union.joins(:collaborators).where('(private = ? AND collaborators.user_id = ?)', true, @user.id)
         # scope.joins('LEFT OUTER JOIN collaborators ON collaborators.wiki_id = wikis.id').where('wikis.private is NULL OR wikis.private = ? OR (private = ? AND collaborators.user_id = ?)', false, true, @user.id)
         # scope.joins(:collaborators).where('wikis.private is NULL OR wikis.private = ?', false)
         # scope.joins(:collaborators).where('private is NULL OR private = ? OR (private = ? AND collaborators.user_id = ?)', false, true, @user.id)
       else
-        scope.where(private: false)
+        wikis = scope.where(private: false)
       end
+      wikis
     end
   end
 end
