@@ -1,6 +1,6 @@
 <div class="">
     <h1>Wikis</h1>
-
+    <div class="divider"></div>
     <div class="row">
         <div class="col-md-8">
             <% @wikis.each do |wiki| %>
@@ -10,11 +10,24 @@
                             <%= link_to wiki.title, wiki %>
                         </h4>
                         <small>
-                            <%= markdown(wiki.body) %><br />
-                            <%= wiki.private %> <!-- remove me -->
-                        </small>
+                            <%= markdown(wiki.body) %>
+                            <br />
+                            <div>
+                                <% if wiki.private? %>
+                                    <span>Private Wiki</span>
+                                <% else %>
+                                    <span>Public Wiki</span>
+                                <% end %>
+                                <br />
+                                <% if wiki.users.include?(current_user) %>
+                                    <span>Collaborator</span>
+                                <% end %>
+                            </div>                        </small>
+                        <div class="divider"></div>
                         <%= link_to 'Edit', edit_wiki_path(wiki), class: 'pull-right btn btn-success' %>
-                        <%= link_to 'Destroy', wiki, class: 'pull-right btn btn-success', method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <% if user_is_authorized_for_wikis?(wiki) %>
+                            <%= link_to 'Destroy', wiki, class: 'pull-right btn btn-success', method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <% end %>
                     </div>
                 </div>
             <% end %>

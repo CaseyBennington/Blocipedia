@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_record_union (1.1.1)
+      activerecord (>= 4.0)
     activejob (4.2.5)
       activesupport (= 4.2.5)
       globalid (>= 0.3.0)
@@ -127,12 +129,14 @@ GEM
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.9.0)
+    multi_json (1.12.1)
     nenv (0.3.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     notiffany (0.1.0)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oj (2.12.14)
     orm_adapter (0.5.0)
     pg (0.18.4)
     pry (0.10.3)
@@ -186,6 +190,8 @@ GEM
       railties (>= 4.2.0, < 5.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rollbar (2.11.5)
+      multi_json
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -259,6 +265,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_record_union
   better_errors
   binding_of_caller
   bootstrap-sass
@@ -272,6 +279,7 @@ DEPENDENCIES
   gravatar
   guard-rspec
   jquery-rails
+  oj (~> 2.12.14)
   pg
   pry
   pundit
@@ -280,6 +288,7 @@ DEPENDENCIES
   rails_12factor
   rails_layout
   redcarpet
+  rollbar
   rspec-rails
   sass-rails (~> 5.0)
   shoulda

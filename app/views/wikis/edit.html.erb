@@ -1,6 +1,5 @@
 <div class="">
     <h1>Edit Wiki</h1>
-
     <div class="row">
         <div class="col-md-4">
             <p>Guidelines for wikis:</p>
@@ -12,6 +11,13 @@
         </div>
         <div class="col-md-8">
             <%= render 'form' %>
+            <% if @wiki.user == current_user || current_user.try(:admin?) #current_user || current_user.admin? %>
+                <%= link_to "Manage collaborators", wiki_collaborators_path(@wiki), class: "btn btn-info" %>
+            <% end %>
+            <%= link_to 'Back', wikis_path %>
+            <% if @wiki.user == current_user || current_user.admin? %>
+                <%= link_to 'Delete', @wiki, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }  %>
+            <% end %>
         </div>
     </div>
 </div>

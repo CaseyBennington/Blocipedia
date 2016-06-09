@@ -1,5 +1,12 @@
+<h1>Upgrade to a Premium Account</h1>
+<h5>Premium Account</h5>
+<p>Available for $15.</p>
+<ul>
+  <li>Access to Private Wikis.</li>
+  <li>Future access to limited-release content.</li>
+  <li>Add collaborators to your very own private wikis.</li>
+</ul>
 <%= form_tag charges_path do %>
-  <h4>Upgrade your Blocipedia account to Premium!</h4>
   <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
     data-key="<%= @stripe_btn_data[:key] %>"
     data-amount=<%= @stripe_btn_data[:amount] %>
