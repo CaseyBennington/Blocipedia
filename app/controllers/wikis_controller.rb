@@ -8,6 +8,7 @@ class WikisController < ApplicationController
 
   def show
     authorize @wiki
+    @wiki = Wiki.friendly.find(params[:id])
   end
 
   def new
@@ -21,7 +22,6 @@ class WikisController < ApplicationController
 
   def create
     @wiki = current_user.wikis.new(wiki_params)
-    # @wiki.user = current_user
     authorize @wiki
 
     if @wiki.save
@@ -34,10 +34,12 @@ class WikisController < ApplicationController
   end
 
   def update
-    @wiki.assign_attributes(wiki_params)
+    # @wiki.assign_attributes(wiki_params)
     authorize @wiki
-
-    if @wiki.save
+    
+    if @wiki.update(wiki_params)
+      @wiki.slug = nil
+      @wiki.save!
       flash[:notice] = 'Wiki was updated successfully.'
       redirect_to @wiki
     else
@@ -71,7 +73,7 @@ class WikisController < ApplicationController
   private
 
   def set_wiki
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
   end
 
   def wiki_params
