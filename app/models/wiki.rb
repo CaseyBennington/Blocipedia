@@ -10,6 +10,9 @@ class Wiki < ActiveRecord::Base
   validates :body, length: { minimum: 20 }, presence: true
   validates :user, presence: true
 
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
   def collaborator_for(user)
     collaborators.where(user_id: user.id).first
   end
