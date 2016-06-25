@@ -63,7 +63,7 @@ describe WikiPolicy do
     end
 
     context 'accessing a wiki' do
-      let(:wiki) { FactoryGirl.create(:wiki) }
+      let!(:wiki) { FactoryGirl.create(:wiki) }
 
       it 'includes wiki in resolved scope' do
         expect(resolved_scope).to include(wiki)

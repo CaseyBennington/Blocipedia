@@ -87,7 +87,8 @@ RSpec.describe WikisController, type: :controller do
 
       it 'redirects to the created wiki' do
         post :create, wiki: valid_attributes
-        expect(response).to redirect_to(Wiki.last)
+        # wiki.reload
+        expect(response).to redirect_to(Wiki.first)
       end
     end
 
@@ -131,6 +132,7 @@ RSpec.describe WikisController, type: :controller do
 
       it 'redirects to the wiki' do
         put :update, id: wiki.to_param, wiki: valid_attributes
+        wiki.reload
         expect(response).to redirect_to(wiki)
       end
     end

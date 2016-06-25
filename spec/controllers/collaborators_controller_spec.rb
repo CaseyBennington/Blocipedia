@@ -6,7 +6,7 @@ RSpec.describe CollaboratorsController, type: :controller do
   let!(:wiki) { create(:wiki, user: user) }
   describe 'GET #index' do
     it 'returns http success' do
-      get :index, id: wiki.id
+      get :index, wiki_id: wiki.id
       expect(response).to have_http_status(:success)
     end
   end
