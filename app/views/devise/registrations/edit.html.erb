@@ -42,7 +42,7 @@
     <%= button_to "Downgrade my account", downgrade_path, :data => { :confirm => "All of your current wikis will be made public. Are you sure?" }, :class => 'button right' %>
   <% else %>
     <h5>Upgrade your account today for <strong><em>only</em></strong> $15!</h5>
-    <%= button_to "Upgrade my account", charges_path, :data => { :confirm => "Are you sure?" }, :class => 'button right' %>
+    <%= button_to "Upgrade my account", new_charge_path, method: :get, :class => 'button right' %>
   <% end %>
 </div>
 
