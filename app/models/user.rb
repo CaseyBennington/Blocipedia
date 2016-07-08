@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   scope :public_wikis, -> { where('(wikis.private IS NULL OR wikis.private = ?)', false) }
   scope :private_wikis, -> { where('(wikis.private = ? AND wikis.user_id = ?)', true, @user.id) }
 
+  def subscribed?
+    stripe_charges_id?
+  end
+
   def avatar_url(size)
     gravatar_id = Digest::MD5::hexdigest(self.email).downcase
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
