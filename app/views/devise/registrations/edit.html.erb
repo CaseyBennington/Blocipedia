@@ -44,8 +44,9 @@
       <%= current_user.card_type %> **** **** **** <%= current_user.card_last4 %>
     </div>
     <div>
-      Expires <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
+      Expires: <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
     </div>
+    <br />
     <p>Use the following link to change your payment method on file. You will continue to be charged on your current schedule.</p>
     <%= form_tag subscription_path(id: :user_id), method: :put do %>
       <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
