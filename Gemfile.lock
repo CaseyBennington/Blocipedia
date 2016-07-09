@@ -316,6 +316,7 @@ DEPENDENCIES
   rails-controller-testing
   rails_12factor
   rails_layout
+  rails_serve_static_assets
   redcarpet
   rollbar
   rspec-rails
