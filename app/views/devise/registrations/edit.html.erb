@@ -37,7 +37,7 @@
     <%= image_tag avatar_url, class: "media-object" %>
   <% end %>
   <h3>Account Status</h3>
-  <p>Your account is currently: <strong><%= current_user.role.capitalize %></p></strong>
+  <p>Your account is currently a <strong><%= current_user.role.capitalize %></strong> account.</p>
   <% if current_user.role == 'premium' %>
     <p>Your current card on file is:</p>
     <div>
@@ -46,7 +46,7 @@
     <div>
       Expires <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
     </div>
-    <hr />
+    <p>Use the following link to change your payment method on file. You will continue to be charged on your current schedule.</p>
     <%= form_tag subscription_path(id: :user_id), method: :put do %>
       <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
         data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
@@ -60,7 +60,7 @@
     <% end %>
     <%= button_to "Downgrade my account", subscription_path(id: :user_id), :data => { :confirm => "All of your current wikis will be made public. Are you sure?" }, method: :delete, class: 'button right' %>
   <% else %>
-    <h5>Upgrade your account today for <strong><em>only</em></strong> $15!</h5>
+    <h5>Upgrade your account today for <strong><em>only</em></strong> $9.99 a month!</h5>
     <%= button_to "Upgrade my account", new_subscription_path, method: :get, :class => 'button right' %>
   <% end %>
 </div>
@@ -68,5 +68,5 @@
 <div class="authform">
   <h3>Cancel Account</h3>
   <p>Unhappy? We'll be sad to see you go.</p>
-  <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: 'button right' %>
+  <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure? Please ensure you downgrade your Premium membership prior to canceling your account." }, :method => :delete, class: 'button right' %>
 </div>

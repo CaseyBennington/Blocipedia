@@ -13,8 +13,8 @@ class SubscriptionsController < ApplicationController
     customer.plan = 'monthly'
     customer.save
 
-    subscription = customer.subscriptions.retrieve(current_user.stripe_subscription_id)
-    # subscription = customer.subscriptions.first
+    # subscription = customer.subscriptions.retrieve(current_user.stripe_subscription_id)
+    subscription = customer.subscriptions.first
     # subscription = customer.subscriptions.create(
     #   source: params[:stripeToken],
     #   plan: 'monthly'
@@ -71,6 +71,8 @@ class SubscriptionsController < ApplicationController
       card_type: card['brand']
     )
 
+    # redirect_to edits(old_user)
+
     flash[:notice] = "Your card on file has been updated successfully. Thank you for supporting Blocipedia!, #{current_user.email}!"
     redirect_to edit_user_registration_path(current_user)
   end
@@ -80,6 +82,9 @@ class SubscriptionsController < ApplicationController
     subscription.delete(at_period_end: true)
     current_user.standard!
     current_user.wikis.update_all(private: false)
+
+    current_user.update(stripe_subscription_id: nil)
+
     redirect_to edit_user_registration_path(current_user)
     flash[:notice] = 'Your account has been downgraded to a Standard Account. All Wikis are now public.'
   end
