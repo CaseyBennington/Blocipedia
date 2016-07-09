@@ -85,5 +85,5 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.action_mailer.default_url_options = { host: 'blooming-plains-48367.herokuapp.com', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'blooming-plains-48367.herokuapp.com' }
 end
