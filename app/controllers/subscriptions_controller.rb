@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_action :authenticate_user!, except: [:new, :destroy, :update, :edit]
+  before_action :authenticate_user!, except: [:new]
   before_action :redirect_to_signup, only: [:new]
 
   def create
@@ -9,10 +9,16 @@ class SubscriptionsController < ApplicationController
                  Stripe::Customer.create(email: current_user.email)
                 end
 
-    subscription = customer.subscriptions.create(
-      source: params[:stripeToken],
-      plan: 'monthly'
-    )
+    customer.source = params[:stripeToken]
+    customer.plan = 'monthly'
+    customer.save
+
+    subscription = customer.subscriptions.retrieve(current_user.stripe_subscription_id)
+    # subscription = customer.subscriptions.first
+    # subscription = customer.subscriptions.create(
+    #   source: params[:stripeToken],
+    #   plan: 'monthly'
+    # )
 
     card = customer.sources.first
 
@@ -38,13 +44,15 @@ class SubscriptionsController < ApplicationController
 
   def edit
     @stripe_btn_data = {
-      key: Rails.configuration.stripe[:publishable_key].to_s
+      key: Rails.configuration.stripe[:publishable_key].to_s,
+      description: "Blocipedia Premium Membership - #{current_user.user_name}"
     }
   end
 
   def new
     @stripe_btn_data = {
-      key: Rails.configuration.stripe[:publishable_key].to_s
+      key: Rails.configuration.stripe[:publishable_key].to_s,
+      description: "Blocipedia Premium Membership - #{current_user.user_name}"
     }
   end
 
@@ -53,6 +61,8 @@ class SubscriptionsController < ApplicationController
     subscription = customer.subscriptions.retrieve(current_user.stripe_subscription_id)
     subscription.source = params[:stripeToken]
     subscription.save
+
+    card = customer.sources.first
 
     current_user.update(
       card_last4: card['last4'],

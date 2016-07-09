@@ -8,7 +8,7 @@
 </ul>
 <%= form_tag subscriptions_path do %>
   <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
-    data-key="<%= @stripe_btn_data[:key] %>"
+    data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
     data-name="Blocipedia"
     data-allow-remember-me=false
     data-description="Blocipedia Premium Membership">

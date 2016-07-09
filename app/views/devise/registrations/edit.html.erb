@@ -49,7 +49,7 @@
     <hr />
     <%= form_tag subscription_path(id: :user_id), method: :put do %>
       <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
-        data-key="<%= @stripe_btn_data[:key] %>"
+        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
         data-name="Blocipedia"
         data-panel-label="Update Card Details"
         data-panel="Update Card Details"
