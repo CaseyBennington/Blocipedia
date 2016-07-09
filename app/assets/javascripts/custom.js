@@ -3,7 +3,7 @@ var opts = {
   textarea: "wiki_body",
   basePath: '/assets',
   clientSideStorage: false,
-  localStorageName: 'epiceditor',
+  localStorageName: '',
   useNativeFullscreen: false,
   parser: marked,
   theme: {
