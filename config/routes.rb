@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :collaborators, only: [:index, :destroy, :create]
   end
 
+  mount StripeEvent::Engine, at: '/stripe/webhook'
+
   devise_for :users
 
   get 'about' => 'welcome#about'

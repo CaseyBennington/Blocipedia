@@ -1,73 +1,92 @@
-<div class="authform">
-  <h3>Edit <%= resource_name.to_s.humanize %></h3>
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :role => 'form'}) do |f| %>
-    <%= devise_error_messages! %>
-    <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+<div class='row'>
+  <div class='col-sm-6'>
+    <div class="authform">
+      <h3>Edit <%= resource_name.to_s.humanize %></h3>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :role => 'form'}) do |f| %>
+        <%= devise_error_messages! %>
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+        </div>
+        <fieldset>
+          <p>Leave these fields blank if you don't want to change your password.</p>
+          <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, :autocomplete => 'off', class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, class: 'form-control' %>
+          </div>
+        </fieldset>
+        <fieldset>
+          <p>You must enter your current password to make changes.</p>
+          <div class="form-group">
+            <%= f.label :current_password %>
+            <%= f.password_field :current_password, class: 'form-control' %>
+          </div>
+        </fieldset>
+        <%= f.submit 'Update', class: 'button right' %>
       <% end %>
     </div>
-    <fieldset>
-      <p>Leave these fields blank if you don't want to change your password.</p>
-      <div class="form-group">
-        <%= f.label :password %>
-        <%= f.password_field :password, :autocomplete => 'off', class: 'form-control' %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation, class: 'form-control' %>
-      </div>
-    </fieldset>
-    <fieldset>
-      <p>You must enter your current password to make changes.</p>
-      <div class="form-group">
-        <%= f.label :current_password %>
-        <%= f.password_field :current_password, class: 'form-control' %>
-      </div>
-    </fieldset>
-    <%= f.submit 'Update', class: 'button right' %>
-  <% end %>
-</div>
 
-<div class="authform">
-  <% avatar_url = avatar_url(@user) %>
-  <% if avatar_url %>
-    <%= image_tag avatar_url, class: "media-object" %>
-  <% end %>
-  <h3>Account Status</h3>
-  <p>Your account is currently a <strong><%= current_user.role.capitalize %></strong> account.</p>
-  <% if current_user.role == 'premium' %>
-    <p>Your current card on file is:</p>
-    <div>
-      <%= current_user.card_type %> **** **** **** <%= current_user.card_last4 %>
+    <div class="authform">
+      <% avatar_url = avatar_url(@user) %>
+      <% if avatar_url %>
+        <%= image_tag avatar_url, class: "media-object" %>
+      <% end %>
+      <h3>Account Status</h3>
+      <p>Your account is currently a <strong><%= current_user.role.capitalize %></strong> account.</p>
+      <% if current_user.role == 'premium' %>
+        <p>Your current card on file is:</p>
+        <div>
+          <%= current_user.card_type %> **** **** **** <%= current_user.card_last4 %>
+        </div>
+        <div>
+          Expires: <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
+        </div>
+        <br />
+        <p>Use the following link to change your payment method on file. You will continue to be charged on your current schedule.</p>
+        <%= form_tag subscription_path(id: :user_id), method: :put do %>
+          <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-name="Blocipedia"
+            data-panel-label="Update Card Details"
+            data-panel="Update Card Details"
+            data-allow-remember-me=false
+            data-email="<%= current_user.email %>"
+            data-description="Blocipedia Premium Membership">
+          </script>
+        <% end %>
+        <%= button_to "Downgrade my account", subscription_path(id: :user_id), :data => { :confirm => "All of your current wikis will be made public. Are you sure?" }, method: :delete, class: 'button right' %>
+      <% else %>
+        <h5>Upgrade your account today for <strong><em>only</em></strong> $9.99 a month!</h5>
+        <%= button_to "Upgrade my account", new_subscription_path, method: :get, :class => 'button right' %>
+      <% end %>
     </div>
-    <div>
-      Expires: <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
+
+    <div class="authform">
+      <h3>Cancel Account</h3>
+      <p>Unhappy? We'll be sad to see you go.</p>
+      <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure? Please ensure you downgrade your Premium membership prior to canceling your account." }, :method => :delete, class: 'button right' %>
     </div>
-    <br />
-    <p>Use the following link to change your payment method on file. You will continue to be charged on your current schedule.</p>
-    <%= form_tag subscription_path(id: :user_id), method: :put do %>
-      <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
-        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-        data-name="Blocipedia"
-        data-panel-label="Update Card Details"
-        data-panel="Update Card Details"
-        data-allow-remember-me=false
-        data-email="<%= current_user.email %>"
-        data-description="Blocipedia Premium Membership">
-      </script>
+  </div>
+
+  <div class='col-sm-6'>
+    <h4>Your Previous Charges</h4>
+    <% current_user.charges.each do |charge| %>
+      <div>
+        You were charged <%= Money.new(charge.amount, "USD").format %>.
+      </div>
+      <div>
+        <%= charge.card_type %> **** **** **** <%= charge.card_last4 %>
+      </div>
+      <div>
+        Expires <%= charge.card_exp_month %> / <%= charge.card_exp_year %>
+      </div>
     <% end %>
-    <%= button_to "Downgrade my account", subscription_path(id: :user_id), :data => { :confirm => "All of your current wikis will be made public. Are you sure?" }, method: :delete, class: 'button right' %>
-  <% else %>
-    <h5>Upgrade your account today for <strong><em>only</em></strong> $9.99 a month!</h5>
-    <%= button_to "Upgrade my account", new_subscription_path, method: :get, :class => 'button right' %>
-  <% end %>
-</div>
-
-<div class="authform">
-  <h3>Cancel Account</h3>
-  <p>Unhappy? We'll be sad to see you go.</p>
-  <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure? Please ensure you downgrade your Premium membership prior to canceling your account." }, :method => :delete, class: 'button right' %>
+  </div>
 </div>

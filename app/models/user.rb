@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :lockable, :timeoutable, :trackable, :validatable
   has_many :wikis
   has_many :collaborators
+  has_many :charges
 
   enum role: [:standard, :premium, :admin]
 
