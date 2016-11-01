@@ -53,12 +53,12 @@
         <%= form_tag subscription_path(id: :user_id), method: :put do %>
           <script class='stripe-button' src="https://checkout.stripe.com/checkout.js"
             data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-            data-name="Blocipedia"
+            data-name="Wiki Here, Wiki Now"
             data-panel-label="Update Card Details"
             data-panel="Update Card Details"
             data-allow-remember-me=false
             data-email="<%= current_user.email %>"
-            data-description="Blocipedia Premium Membership">
+            data-description="Wiki Here, Wiki Now Premium Membership">
           </script>
         <% end %>
         <%= button_to "Downgrade my account", subscription_path(id: :user_id), :data => { :confirm => "All of your current wikis will be made public. Are you sure?" }, method: :delete, class: 'button right' %>
