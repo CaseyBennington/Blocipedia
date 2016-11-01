@@ -52,3 +52,6 @@ NOTE: Upgrading to Premium is done with Stripe. It is deliberately set to test m
 + Create and migrate the SQLite database with `rake db:create` and `rake db:migrate`
 + Start the server using `rails server`
 + Run the app on `localhost:3000`
+
+
+[![See demo.](wikiherewikinow.png)](https://blooming-plains-48367.herokuapp.com/)
