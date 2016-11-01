@@ -38,6 +38,7 @@ NOTE: Upgrading to Premium is done with Stripe. It is deliberately set to test m
 + HAML for some markup
 + Gravatar for user icon
 + Friendly_id for cleaner urls
++ EpicEditor for markdown preview of wikis
 
 **Setup:**
 
