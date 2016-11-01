@@ -6,7 +6,7 @@ Wiki here, Wiki Now is a Ruby on Rails application that allows users to create w
 
 The app is deployed on Heroku: https://blooming-plains-48367.herokuapp.com/
 
-The source code is here on GitHub: https://github.com/CaseyBennington/WikiHereWikiNow/
+The source code is here on GitHub: https://github.com/CaseyBennington/Wiki-Here-Wiki-Now
 
 # Features
 
