@@ -29,6 +29,7 @@ end
 
 group :test do
   gem 'pundit-matchers'
+  gem 'launchy'
 end
 
 gem 'sass-rails'
