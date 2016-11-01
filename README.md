@@ -1,6 +1,6 @@
 ![](https://travis-ci.org/CaseyBennington/Blocipedia.svg?branch=master)
 
-# Wiki here, Wiki Now
+# Wiki Here, Wiki Now
 
 Wiki here, Wiki Now is a Ruby on Rails application that allows users to create wikis and collaborate on other wikis. Users can pay to upgrade their membership, allowing them to view and create private wikis.
 
@@ -45,7 +45,7 @@ NOTE: Upgrading to Premium is done with Stripe. It is deliberately set to test m
 
 + The config/application.example.yml file illustrates how environment variables should be stored.
 
-**To run Blocipedia locally:**
+**To run Wiki Here, Wiki Now locally:**
 
 + Clone the repository
 + Run bundle install
