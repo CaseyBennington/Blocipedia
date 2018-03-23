@@ -6,7 +6,7 @@ Wiki here, Wiki Now is a Ruby on Rails application that allows users to create w
 
 The app is deployed on Heroku: https://blooming-plains-48367.herokuapp.com/
 
-The source code is here on GitHub: https://github.com/CaseyBennington/WikiHereWikiNow/
+The source code is here on GitHub: https://github.com/CaseyBennington/Wiki-Here-Wiki-Now
 
 # Features
 
@@ -23,8 +23,9 @@ NOTE: Upgrading to Premium is done with Stripe. It is deliberately set to test m
 
 **Languages and Frameworks**: Ruby on Rails and Bootstrap
 
-**Ruby version 2.0.0**
-**Rails version 5.0.0.rc1
+**Ruby version 2.3.0p0**
+
+**Rails version 5.0.0.rc1**
 
 **Databases**: SQLite (Test, Development), PostgreSQL (Production)
 
