@@ -166,7 +166,7 @@ GEM
     pundit-matchers (1.4.1)
       pundit (~> 1.1, >= 1.1.0)
       rspec-rails (>= 3.0.0)
-    rack (2.0.4)
+    rack (~> 2.0.6)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.rc1)
